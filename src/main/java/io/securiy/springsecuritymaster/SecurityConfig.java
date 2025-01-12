@@ -19,7 +19,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated()) //모든 요청에 인증을 받겠다는 설정
-                .httpBasic(basic -> basic.authenticationEntryPoint(new CustomAuthenticationEntryPoint()));
+                .formLogin(Customizer.withDefaults())
+                .rememberMe(rememberMe -> rememberMe
+                                .alwaysRemember(true)
+                                .tokenValiditySeconds(3600)
+                                .userDetailsService(userDetailsService())
+                                .rememberMeParameter("remember")
+                                .rememberMeCookieName("remember")
+                                .key("security")
+                        );
         return http.build();
     }
 
