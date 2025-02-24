@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
     @GetMapping("/")
-    public String index() {
-        return "index";
+    public String index(String customParam) {
+        if(customParam != null) {
+            return "customPage";
+        }else {
+            return "index";
+        }
     }
 
     @GetMapping("/home")
@@ -42,5 +46,10 @@ public class IndexController {
     @GetMapping("/anonymousContext")
     public String anonymousContext(@CurrentSecurityContext SecurityContext context) {
         return context.getAuthentication().getName();
+    }
+
+    @GetMapping("logoutSuccess")
+    public String logoutSuccess() {
+        return "logoutSuccess";
     }
 }
